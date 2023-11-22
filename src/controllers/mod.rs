@@ -61,7 +61,7 @@ pub trait AppControl<T> {
 }
 
 fn volume_from_percent(volume: f64) -> f64 {
-    ((volume * 100.0) * (f64::from(pulse::volume::VOLUME_NORM.0) / 100.0))
+    (volume * (f64::from(pulse::volume::VOLUME_NORM.0) / 100.0))
 }
 
 pub struct SinkController {
