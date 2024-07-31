@@ -7,7 +7,6 @@
 /// if you want to manipulate recording devices such as microphone volume,
 /// you'll need to use a `SourceController`. Both of these implement the same api, defined by
 /// the traits DeviceControl and AppControl
-
 use std::cell::RefCell;
 use std::clone::Clone;
 use std::rc::Rc;
@@ -61,7 +60,7 @@ pub trait AppControl<T> {
 }
 
 fn volume_from_percent(volume: f64) -> f64 {
-    (volume * (f64::from(pulse::volume::VOLUME_NORM.0) / 100.0))
+    volume * (f64::from(pulse::volume::VOLUME_NORM.0) / 100.0)
 }
 
 pub struct SinkController {
@@ -295,9 +294,7 @@ impl AppControl<ApplicationInfo> for SinkController {
             .expect("Could not find device specified");
         let new_vol = Volume::from(Volume(volume_from_percent(delta) as u32));
         println!("{:?}", new_vol.print_verbose(true));
-        let volumes = app_ref
-            .volume
-            .set(2,new_vol);
+        let volumes = app_ref.volume.set(2, new_vol);
         let op = self
             .handler
             .introspect
@@ -590,9 +587,7 @@ impl AppControl<ApplicationInfo> for SourceController {
             .expect("Could not find device specified");
         let new_vol = Volume::from(Volume(volume_from_percent(volume) as u32));
         println!("{:?}", new_vol.print_verbose(true));
-        let volumes = app_ref
-            .volume
-            .set(2,new_vol);
+        let volumes = app_ref.volume.set(2, new_vol);
         let op = self
             .handler
             .introspect
